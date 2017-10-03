@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        height: 600px;
+        width: 100%;
+       }
+       
+      #restaurant-list-panel {
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute;
+        left: 5px;
+        top: 62%;
+        margin-top: -195px;
+        height: auto;
+        width: 200px;
+        padding: 5px;
+        z-index: 5;
+        border: 1px solid #999;
+        background: #fff;
+        line-height: 25px;
+        padding-left: 10px;
+      }
+      #restaurant-list-panel select, #restaurant-list-panel input {
+        font-size: 15px;
+      }
+
+      #restaurant-list-panel select {
+        width: 100%;
+      }
+
+      #restaurant-list-panel i {
+        font-size: 12px;
+      }
+      h4 {
+        margin: 0 0 5px 0;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        height: 271px;
+        width: 200px;
+        overflow-y: scroll;
+      }
+      li {
+        background-color: #f1f1f1;
+        padding: 10px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      li:nth-child(odd) {
+        background-color: #fcfcfc;
+      }
+      #more {
+        width: 100%;
+        margin: 5px 0 0 0;
+      }
+      .listr{
+        cursor:pointer;
+      }
+    
+    </style>
+	 
+  </head>
+  <body>
+    
+    <div id="map"></div>
+    <div id="restaurant-list-panel">
+      <h4>Restaurant List in Cebu City</h4>
+      <ul id="places"></ul>
+    </div>
+    <script>
+var map;
+var service;
+var infowindow;
+var geocoder;
+var totalr=0;
+var address ="cebu city, Philippines";
+var lastnum=1;
+var pos;
+function initialize() {
+  console.log("intitialize");
+}
+
+function initMap() {
+  google.maps.event.addDomListener(window, 'load', initialize);
+	geocoder = new google.maps.Geocoder();
+	if(geocoder) {
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+          		  
+          	var target_place = new google.maps.LatLng(results[0].geometry.location.lat(),results[0].geometry.location.lng());
+          	var option={center:target_place,zoom: 14,mapTypeControl: true,
+            mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+            navigationControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP}
+            map = new google.maps.Map(document.getElementById('map'), option);
+            map.addListener("click", function (e) {
+            	var latLng = e.latLng;
+          		});
+          	infowindow = new google.maps.InfoWindow({content:'<b>Cebu City</b>',size: new google.maps.Size(150,50)});
+
+        		if (navigator.geolocation) {
+          		navigator.geolocation.getCurrentPosition(function(position) {
+              	pos = {
+              		lat: position.coords.latitude,
+             		lng: position.coords.longitude
+             	};
+             	var cityCircle = new google.maps.Circle({
+            	strokeColor: '#FF0000',
+            	strokeOpacity: 0.8,
+               strokeWeight: 2,
+               fillColor: '#FF0000',
+               fillOpacity: 0.35,
+               map: map,
+               center: pos,
+               radius: 100,
+               title:'your current position'
+            });
+
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+            var request = {
+              location: target_place,
+              radius: '100',
+              query: 'restaurant food'
+            };
+
+            service = new google.maps.places.PlacesService(map);
+            service.textSearch(request, callback);
+
+          } else {
+            alert("Geolocation Not found");
+          }
+        } else {
+          alert("Geocode error for the following reason: " + status);
+        }
+      });
+    }
+  
+}
+
+function callback(results, status,pagination) {
+	console.log(results.length);
+  	totalr=totalr+results.length;
+  	if (status == google.maps.places.PlacesServiceStatus.OK) {
+   	 for (var i = 0; i < results.length; i++) {
+   	   var place = results[i];
+      	createMarker(results[i]);
+    	}
+	  	if (pagination.hasNextPage) {
+      	pagination.nextPage();
+
+    	}else{
+      	var CenterSquareDiv = document.createElement('div');
+      	var CenterSquare = new CenterSquare(CenterSquareDiv, map,totalr);
+
+      	CenterSquareDiv.index = 1;
+      	console.log(google.maps);
+      	map.controls[google.maps.ControlPosition.TOP_CENTER].push(CenterSquareDiv);
+    	}
+  	}
+}
+
+function createMarker(place) {
+  	var placeLoc = place.geometry.location;
+  	var mevent=google.maps.event;
+  
+  	var marker = new google.maps.Marker({
+   	map: map,
+   	position: place.geometry.location
+  	});
+	var lip = document.createElement('LI');
+  	lip.appendChild(document.createTextNode(lastnum+'. '+place.name));
+	document.getElementById('places').appendChild(lip);
+  	lip.className="listr";
+	lip.innerHTML=lastnum+'. '+place.name+'<br>';
+  	var s=mevent.addListener(marker, 'click', function() {
+		showContent(this,map,place);
+   });
+   lip.addEventListener('click', function() {
+		showContent(marker,map,place);
+	}, false);
+    //bounds.extend(place.geometry.location);
+    lastnum++;
+}
+
+function CenterSquare(controlDiv, map,total) {
+   // Set CSS for the control border.
+	var controlUI = document.createElement('div');
+   controlUI.style.backgroundColor = '#fff';
+   controlUI.style.border = '2px solid #fff';
+   controlUI.style.borderRadius = '3px';
+   controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+   controlUI.style.cursor = 'pointer';
+   controlUI.style.marginBottom = '22px';
+   controlUI.style.textAlign = 'center';
+   controlUI.title = 'Click to recenter the map';
+   controlDiv.appendChild(controlUI);
+
+   // Set CSS for the control interior.
+   var controlText = document.createElement('div');
+   controlText.style.color = 'rgb(25,25,25)';
+   controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+   controlText.style.fontSize = '16px';
+   controlText.style.lineHeight = '38px';
+   controlText.style.paddingLeft = '5px';
+   controlText.style.paddingRight = '5px';
+   controlText.innerHTML = 'Total Restaurant: '+total;
+   controlUI.appendChild(controlText);
+}
+function showContent(obj,map,place){
+  	var directionsService = new google.maps.DirectionsService;
+  	var directionsDisplay = new google.maps.DirectionsRenderer;
+	
+	directionsDisplay.setMap(map);
+	
+	directionsService.route({
+      origin: pos,
+      destination: place.geometry.location,
+      travelMode: 'DRIVING',
+      region:'6000'
+   	}, function(response, status) {
+   		if (status === 'OK') {
+      		directionsDisplay.setDirections(response);
+      	} else {
+      		window.alert('Directions request failed due to ' + status);
+   		}
+   });
+
+		
+	service.getDetails({
+   	placeId: place.id
+   	}, function(places, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            console.log("dara");
+            console.log(places);
+          }
+   });
+      
+	infowindow.setContent('<b>'+place.name+'<b><br>'+(typeof place.photos[0]!== 'undefined'?'<img style="width:60px;" src="'+place.photos[0].getUrl({maxWidth: 640})+'">':'')+'<br><b>rating:</b>'+place.rating+'<br><b>Open hours:</b>'+(place.opening_hours.open_now?'open':'close')+'<b>');
+	infowindow.setSize(new google.maps.Size(150,50));          
+   infowindow.open(map, obj);
+}
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBJ7Vg19nlpd2jwjr1G5fB00EuR_z0fK4&callback=initMap&libraries=places">
+    </script> 
+  </body>
+</html>
