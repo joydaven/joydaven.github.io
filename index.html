@@ -67,7 +67,10 @@
   </head>
   <body>
     
+
+
     <div id="map"></div>
+
     <div id="restaurant-list-panel">
       <h4>Restaurant List in Cebu City</h4>
       <ul id="places"></ul>
@@ -125,6 +128,8 @@ function initMap() {
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
           });
+
+          map.addListener('click', drawCirc);
         } else {
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
@@ -162,12 +167,42 @@ function callback(results, status,pagination) {
       	pagination.nextPage();
 
     	}else{
+<<<<<<< HEAD
+      	var centerControlDiv = document.createElement('div');
+        var centerControl = new CenterControl(centerControlDiv, map,totalr);
+
+        centerControlDiv.index = 1;
+        console.log(google.maps);
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+
+         /*var labelText = "1";
+          var myOptions = {
+            content: labelText,
+            boxStyle: {
+              border: "none",
+              textAlign: "center",
+              fontSize: "10pt",
+              width: "50px"
+            },
+            disableAutoPan: true,
+            pixelOffset: new google.maps.Size(-25, -5),
+            position: pos,
+            closeBoxURL: "",
+            isHidden: false,
+            pane: "floatPane",
+            enableEventPropagation: true
+          };
+
+          var ibLabel = new InfoBox(myOptions);
+          ibLabel.open(map);*/
+=======
       		var centerControlDiv = document.createElement('div');
 	      var centerControl = new CenterControl(centerControlDiv, map,totalr);
 
 	      centerControlDiv.index = 1;
 	      console.log(google.maps);
 	      map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+>>>>>>> 3d027c516b849027927fc16d753ac8cc826b4025
     	}
   	}
 }
@@ -253,9 +288,26 @@ function showContent(obj,map,place){
    infowindow.open(map, obj);
 }
 
+function drawCirc(event) {
+  var cityCircle = new google.maps.Circle({
+    strokeColor: '#00ff00',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35,
+    map: map,
+    center: event.latLng,
+    radius: 200,
+    title:'total restaurant',
+    draggable:true
+    });
+}
+
+
+
     </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBJ7Vg19nlpd2jwjr1G5fB00EuR_z0fK4&callback=initMap&libraries=places">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBJ7Vg19nlpd2jwjr1G5fB00EuR_z0fK4&callback=initMap&libraries=places">
     </script> 
+    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/maplabel/src/maplabel-compiled.js">
   </body>
 </html>
