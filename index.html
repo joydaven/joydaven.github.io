@@ -130,15 +130,6 @@ function initMap() {
           });
 
         map.addListener('click', drawCirc);
-        /*var mapLabel = new MapLabel({
-          text: 'Test',
-          position: pos,
-          map: map,
-          fontSize: 35,
-          align: 'right'
-        });
-        mapLabel.set('position',pos);*/
-
         } else {
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
@@ -165,7 +156,6 @@ function initMap() {
 }
 
 function callback(results, status,pagination) {
-  console.log(results.length);
     totalr=totalr+results.length;
     if (status == google.maps.places.PlacesServiceStatus.OK) {
      for (var i = 0; i < results.length; i++) {
@@ -269,7 +259,6 @@ function showContent(obj,map,place){
 }
 
 function drawCirc(event) {
-  console.log(event.latLng.lng());
   var cityCircle = new google.maps.Circle({
     strokeColor: '#00ff00',
     strokeOpacity: 0.8,
@@ -281,14 +270,15 @@ function drawCirc(event) {
     radius: 200,
     title:'total restaurant'
     });
- /*   Location temp = new Location(LocationManager.GPS_PROVIDER);
+/*
+Location temp = new Location(LocationManager.GPS_PROVIDER);
 temp.setLatitude(event.latLng.lng());
 temp.setLongitude(event.latLng.lat()-10);
-float distance = location.distanceTo(temp);*/
-
+float distance = location.distanceTo(temp);
+*/
     var mapLabel = new MapLabel({
           text: totalr.toString(),
-          position: event.latLng,
+          position: {lat: (event.latLng.lng()), lng: (event.latLng.lat())},//event.latLng,
           map: map,
           fontSize: 20,
           align: 'center'
@@ -297,7 +287,6 @@ float distance = location.distanceTo(temp);*/
 
         cityCircle.bindTo('map', mapLabel);
         cityCircle.bindTo('position', mapLabel);
-        //cityCircle.setDraggable(true);
 }
         
     </script>
