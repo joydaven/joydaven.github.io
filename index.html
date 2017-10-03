@@ -162,12 +162,12 @@ function callback(results, status,pagination) {
       	pagination.nextPage();
 
     	}else{
-      	var CenterSquareDiv = document.createElement('div');
-      	var CenterSquare = new CenterSquare(CenterSquareDiv, map,totalr);
+      		var centerControlDiv = document.createElement('div');
+	      var centerControl = new CenterControl(centerControlDiv, map,totalr);
 
-      	CenterSquareDiv.index = 1;
-      	console.log(google.maps);
-      	map.controls[google.maps.ControlPosition.TOP_CENTER].push(CenterSquareDiv);
+	      centerControlDiv.index = 1;
+	      console.log(google.maps);
+	      map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
     	}
   	}
 }
@@ -195,7 +195,7 @@ function createMarker(place) {
     lastnum++;
 }
 
-function CenterSquare(controlDiv, map,total) {
+function CenterControl(controlDiv, map,total) {
    // Set CSS for the control border.
 	var controlUI = document.createElement('div');
    controlUI.style.backgroundColor = '#fff';
