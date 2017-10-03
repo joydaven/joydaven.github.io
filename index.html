@@ -167,13 +167,6 @@ function callback(results, status,pagination) {
       	pagination.nextPage();
 
     	}else{
-<<<<<<< HEAD
-      	var centerControlDiv = document.createElement('div');
-        var centerControl = new CenterControl(centerControlDiv, map,totalr);
-
-        centerControlDiv.index = 1;
-        console.log(google.maps);
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 
          /*var labelText = "1";
           var myOptions = {
@@ -195,14 +188,13 @@ function callback(results, status,pagination) {
 
           var ibLabel = new InfoBox(myOptions);
           ibLabel.open(map);*/
-=======
+
       		var centerControlDiv = document.createElement('div');
 	      var centerControl = new CenterControl(centerControlDiv, map,totalr);
 
 	      centerControlDiv.index = 1;
 	      console.log(google.maps);
 	      map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
->>>>>>> 3d027c516b849027927fc16d753ac8cc826b4025
     	}
   	}
 }
