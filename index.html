@@ -76,7 +76,7 @@ box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
    
   </head>
   <body>
-    <div id="map"><center><h5>Please check your internet connection</h5></center></div>
+    <div id="map"></div>
 
 <div class="panel-group" id="restaurant-list-panel">
   <div class="panel panel-success">
@@ -355,7 +355,7 @@ function showContent(obj,map,place){
             console.log(places);
           }
    }); 
-  infowindow.setContent('<b>'+place.name+'<b><br>'+(typeof place.photos[0]!== 'undefined'?'<img style="width:60px;" src="'+place.photos[0].getUrl({maxWidth: 640})+'">':'')+'<br>Food Specialty <br><b>rating:</b>'+getRating(place.rating)+'<br><b>Open hours:</b>'+(place.opening_hours.open_now?'open':'close')+'<br>'+'current customer ontrack: '+(place.rating*200)+'<br><br><button class="btn btn-success btn-xs" data-toggle="collapse" data-target="#analytic" onclick="viewAnalytic();">toogle view analytics</button><div id="analytic" class="collapse"  style="width: 380px; height: 250px"></div>');
+  infowindow.setContent('<b>'+place.name+'<b><br>'+(typeof place.photos[0]!== 'undefined'?'<img style="width:60px;" src="'+place.photos[0].getUrl({maxWidth: 640})+'">':'')+'<br>Food Specialty <br><b>rating:</b>'+getRating(place.rating)+'<br><b>Open hours:</b>'+(place.opening_hours.open_now?'open':'close')+'<br>'+'current customer ontrack: '+(place.rating*200)+'<br><br><button class="btn btn-success btn-xs" data-toggle="collapse" data-target="#analytic" onclick="viewAnalytic();">toogle view analytics</button><div id="analytic" class="collapse"  style="width: 390px; height: 240px"></div>');
   infowindow.setSize(new google.maps.Size(150,50));          
   infowindow.open(map, obj);
 }
