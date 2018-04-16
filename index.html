@@ -223,6 +223,46 @@ function initMap() {
           		handleLocationError(false, infoWindow, map.getCenter());
           		setTimeout(function() {window.location.reload();}, 1000)
         		}
+        		
+        		//setup drawing panel
+      		var drawingManager = new google.maps.drawing.DrawingManager({
+          	drawingMode: google.maps.drawing.OverlayType.MARKER,
+          	drawingControl: true,
+          	drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT,
+            drawingModes: ['circle', 'rectangle', 'polygon', 'polyline']
+          	},
+          	markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+          		circleOptions: {
+            		fillColor: '#5cb85c',
+            		fillOpacity: 0.5,
+            		strokeWeight: 5,
+            		clickable: false,
+            		draggable: true,
+            		editable: true,
+            		zIndex: 1
+          		},
+          		rectangleOptions: {
+            		fillColor: '#fcef50',
+            		fillOpacity: 0.5,
+            		strokeWeight: 5,
+            		clickable: false,
+            		draggable: true,
+            		editable: true,
+            		zIndex: 1
+          		}
+          		/*var mapLabel2 = new MapLabel({
+          			text: totalr.toString(),
+          			position: {lat: (event.latLng.lng()), lng: (event.latLng.lat())},//event.latLng,
+          			map: map,
+          			fontSize: 20,
+          			align: 'center'
+        			});
+        			mapLabel2.set('position', event.latLng);
+        			cityCircle.bindTo('map', mapLabel);
+        			cityCircle.bindTo('position', mapLabel);*/
+        		});
+        		drawingManager.setMap(map);
         		//append div rectangle element in top of the map and display total restaurant
         		var centerControlDiv = document.createElement('div');
         		var centerControl = new CenterControl(centerControlDiv, map,totalr);
@@ -240,6 +280,8 @@ function initMap() {
 			 setTimeout(function() {window.location.reload();}, 1000);
         }
       });
+      
+            
     }
 
 }
@@ -378,7 +420,7 @@ temp.setLatitude(event.latLng.lng());
 temp.setLongitude(event.latLng.lat()-10);
 float distance = location.distanceTo(temp);
 */
-    var mapLabel = new MapLabel({
+    	  var mapLabel = new MapLabel({
           text: totalr.toString(),
           position: {lat: (event.latLng.lng()), lng: (event.latLng.lat())},//event.latLng,
           map: map,
@@ -512,9 +554,11 @@ float distance = location.distanceTo(temp);
 
         chart.draw(data, options);
       }
+      
+
     </script>
     
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBJ7Vg19nlpd2jwjr1G5fB00EuR_z0fK4&callback=initMap&libraries=places"></script> 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBJ7Vg19nlpd2jwjr1G5fB00EuR_z0fK4&callback=initMap&libraries=places,drawing"></script> 
     <script src="maplabel.js"></script>
 
   </body>
