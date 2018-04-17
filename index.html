@@ -364,19 +364,32 @@ function initMap() {
 				});
 				google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
 					if (event.type == 'rectangle') {
-						console.log(event);
-						console.log(event.bounds);
-						return;				
 						let mapLabel = new MapLabel({
         				text: totalr.toString(),
-        				position: new google.maps.LatLng(event.map.lat(), event.map.lng()),
+        				position: event.overlay.getBounds().getCenter(),/*new google.maps.LatLng(event.map.lat(), event.map.lng()),*/
         				map: map,
         				fontSize: 20,
         				align: 'center'
     					});
     				}
-    				
-    				
+    				if (event.type == 'polygon') {
+						let mapLabel = new MapLabel({
+        				text: totalr.toString(),
+        				position: event.overlay.getPath().getArray()[0],
+        				map: map,
+        				fontSize: 20,
+        				align: 'center'
+    					});
+    				}
+    				if (event.type == 'polyline') {
+						let mapLabel = new MapLabel({
+        				text: totalr.toString(),
+        				position: event.overlay.getPath().getArray()[0],
+        				map: map,
+        				fontSize: 20,
+        				align: 'center'
+    					});
+    				}    				
 				});
 				
         		//append div rectangle element in top of the map and display total restaurant
@@ -399,7 +412,15 @@ function initMap() {
       
             
     }
-
+	 function getPath(polygon) {
+      var path = polygon.getPath();
+      var len = path.getLength();
+      var coordStr = 'id: ' + polygon.id + '\n';
+      for (var i = 0; i < len; i++) {
+        coordStr += this.getAt(i).toUrlValue(6) + "\n";
+      }
+      console.log(coordStr);
+    }
 }
 	/*//set more button
 	var moreButton = document.getElementById('more');
@@ -699,6 +720,76 @@ float distance = location.distanceTo(temp);
       	deleteDirection();
       	searchRes(searc);
 		}
+		
+		//polygon on drag
+		/*
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {
+      lat: -34.397,
+      lng: 150.644
+    },
+    zoom: 8
+  });
+
+  var drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: google.maps.drawing.OverlayType.MARKER,
+    drawingControl: true,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER,
+      drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
+    },
+    markerOptions: {
+      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+    },
+    circleOptions: {
+      fillColor: '#ffff00',
+      fillOpacity: 1,
+      strokeWeight: 5,
+      clickable: false,
+      editable: true,
+      zIndex: 1
+    }
+  });
+  drawingManager.setMap(map);
+
+  var shapeID = 1;
+
+  google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
+    drawingManager.setDrawingMode(null);
+
+    polygon.setOptions({
+      id: shapeID,
+      editable: true,
+      draggable: true
+    });
+
+    google.maps.event.addListener(polygon, 'click', function() {
+      console.log(this.id + ' ' + this.getPath().getArray().toString());
+    });
+
+    google.maps.event.addListener(polygon, 'dragend', function() {
+      console.log(this.id + ' ' + this.getPath().getArray().toString());
+    });
+    
+    google.maps.event.addListener(polygon.getPath(), "insert_at", getPath);
+    google.maps.event.addListener(polygon.getPath(), "remove_at", getPath);
+    google.maps.event.addListener(polygon.getPath(), "set_at", getPath);
+
+    function getPath() {
+      var path = polygon.getPath();
+      var len = path.getLength();
+      var coordStr = 'id: ' + polygon.id + '\n';
+      for (var i = 0; i < len; i++) {
+        coordStr += this.getAt(i).toUrlValue(6) + "\n";
+      }
+      console.log(coordStr);
+    }
+
+    shapeID++;
+  });
+}		
+		*/
     </script>
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBJ7Vg19nlpd2jwjr1G5fB00EuR_z0fK4&callback=initMap&libraries=places,drawing"></script> 
