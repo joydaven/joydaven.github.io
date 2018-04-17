@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
+  	<meta charset="UTF-8">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/loader.js"></script>
    <style>
        #map {
-        height: 790px;
+        height: 700px;
         width: 100%;
        }
-       #restaurant-list-filter {
+       /*#restaurant-list-filter {
         font-family: Arial, Helvetica, sans-serif;
         position: absolute;
         left: 5px;
@@ -23,17 +24,16 @@
         border: 1px solid #999;
         background: #fff;
         line-height: 25px;
-        /*padding-left: 10px;*/
         -webkit-box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
 		  -moz-box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
 		  box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
-      }
+      }*/
       #restaurant-list-panel {
         font-family: Arial, Helvetica, sans-serif;
         position: absolute;
-        left: 5px;
-        top: 45%;
-        margin-top: 1px; /*-195*/
+        left: -242px;/*5px;*/
+        top: 10%;
+        /*margin-top: -165px; -195*/
         height: auto;
         width: 250px;
         padding: 5px;
@@ -94,75 +94,8 @@ box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
   </head>
   <body>
     <div id="map"><center></h3>Please check your internet connection</h3></center></div>
-
-<div class="panel-group" id="restaurant-list-filter">
-  <div class="panel panel-success">
-		<div class="panel-heading">Filter Restaurant Type</div>
-		<div class="panel-body" style="height: 150px; overflow-y: scroll">
-			<div class="row">
-				<div class="col-md-6" style="margin-left: -10px;">
-					<div class="checkbox">
-						<label><input type="checkbox" onclick="changeRType(this);" value="pizza" name="restype1"> pizza</label>
-					</div>
-				</div>
-				<div class="col-md-6" style="margin-left: -15px;">
-					<div class="checkbox">
-						<label><input type="checkbox" onclick="changeRType(this);" value="lechon" name="restype2"> lechon</label>
-					</div>
-				</div>
-			</div>
-    		<div class="row">
-    			<div class="col-md-6" style="margin-left: -10px;">
-					<div class="checkbox">
-						<label><input type="checkbox" onclick="changeRType(this);" value="hamburger" name="restype3"> hamburger</label>
-					</div>
-				</div>
-				<div class="col-md-6" style="margin-left: -15px;">
-					<div class="checkbox">
-    					<label><input type="checkbox" onclick="changeRType(this);" value="ice cream" name="restype4"> ice cream</label>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-    			<div class="col-md-6" style="margin-left: -10px;">
-					<div class="checkbox">
-						<label><input type="checkbox" onclick="changeRType(this);" value="coffee" name="restype5"> coffee</label>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="checkbox" style="margin-left: -15px;">
-    					<label><input type="checkbox" onclick="changeRType(this);" value="seafood" name="restype6"> seafoods</label>
-					</div>
-				</div>
-			</div>
-    		<div class="row">
-    			<div class="col-md-6" style="margin-left: -10px;">
-					<div class="checkbox">
-						<label><input type="checkbox" onclick="changeRType(this);" value="chicken" name="restype7"> chicken</label>
-					</div>
-				</div>
-				<div class="col-md-6" style="margin-left: -15px;">
-					<div class="checkbox">
-    					<label><input type="checkbox" onclick="changeRType(this);" value="soup" name="restype8"> soup</label>
-					</div>
-				</div>
-			</div>
-    		<div class="row">
-    			<div class="col-md-6" style="margin-left: -10px;">
-					<div class="checkbox">
-						<label><input type="checkbox" onclick="changeRType(this);" value="pasta" name="restype9"> pasta</label>
-					</div>
-				</div>
-				<div class="col-md-6" style="margin-left: -15px;">
-					<div class="checkbox">
-    					<label><input type="checkbox" onclick="changeRType(this);" value="noddles" name="restype10"> noddles</label>
-					</div>
-				</div>
-			</div>			
-		</div>
-	</div>
-</div>
-<div class="panel-group" id="restaurant-list-panel"><button style="position:absolute;" id="toggler">show</button>
+    
+<div class="panel-group" id="restaurant-list-panel"><button class="btn btn-default btn-xs" style="position:absolute;right: -23px; top:-1px; border-left:0px;" id="toggler"><span class="glyphicon glyphicon-transfer"></span></button>
   <div class="panel panel-success">
 		<div class="panel-heading">Restaurant List in Cebu City</div>
 		<div class="panel-body">
@@ -182,12 +115,77 @@ box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
 					</div>
 				</div>
 			</div>
+			<!--filter-->
+			<div  style="height: 150px; line-height: 1;">
+			<div class="row" style="margin-bottom:-10px;">
+				<div class="col-md-6" style="margin:0 0 0 -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="pizza" name="restype1"> pizza</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin:0 0 0 -15px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="lechon" name="restype2"> lechon</label>
+					</div>
+				</div>
+			</div>
+    		<div class="row">
+    			<div class="col-md-6" style="margin:-15px 0 0 -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="hamburger" name="restype3"> hamburger</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin:-15px 0 0 -15px;">
+					<div class="checkbox">
+    					<label><input type="checkbox" onclick="changeRType(this);" value="ice cream" name="restype4"> ice cream</label>
+					</div>
+				</div>
+			</div>
 			<div class="row">
-				<div class="checkbox">
+    			<div class="col-md-6" style="margin:-15px 0 0 -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="coffee" name="restype5"> coffee</label>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="checkbox" style="margin:-5px 0 0 -15px;">
+    					<label><input type="checkbox" onclick="changeRType(this);" value="seafood" name="restype6"> seafoods</label>
+					</div>
+				</div>
+			</div>
+    		<div class="row">
+    			<div class="col-md-6" style="margin:-15px 0 0 -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="chicken" name="restype7"> chicken</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin:-15px 0 0 -15px;">
+					<div class="checkbox">
+    					<label><input type="checkbox" onclick="changeRType(this);" value="soup" name="restype8"> soup</label>
+					</div>
+				</div>
+			</div>
+    		<div class="row">
+    			<div class="col-md-6" style="margin:-15px 0 0 -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="pasta" name="restype9"> pasta</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin:-15px 0 0 -15px;">
+					<div class="checkbox">
+    					<label><input type="checkbox" onclick="changeRType(this);" value="noddles" name="restype10"> noddles</label>
+					</div>
+				</div>
+			</div>			
+			</div>
+			<!--filter end-->
+			<div class="row">
+				<div class="checkbox" style="margin-left: 5px; margin-top: -10px;">
     				<label><input type="checkbox" onclick="hidemarker(this);" name="hidemarker"> Hide Marker</label>
     				<label><input type="checkbox" onclick="hidedirection(this);" name="hidedirection"> Hide Direction</label>
   				</div>
 			</div>
+
       	<div class="row" style="margin-top: 10px;">
       		<div class="col-md-12">
       			<ul id="places"></ul>
@@ -234,6 +232,10 @@ function initialize() {
 }
     
 function initMap() {
+  //show control
+  $("#restaurant-list-panel").animate({left: '5px'}, "slow");
+  $("#restaurant-list-panel").addClass('view');
+  
   google.maps.event.addDomListener(window, 'load', initialize);
   geocoder = new google.maps.Geocoder();
   if(geocoder) {
@@ -277,7 +279,7 @@ function initMap() {
             	 		geocoder.geocode({'location': pos}, function(results, status) {
           					if (status === 'OK') {
             					if (results[0]) {
-            						curlocationInfoWin.setContent('<b>Your Current Location:<br>Address:</b>'+results[0].formatted_address);//<p size="4">base on navigator geolocation</p>
+            						curlocationInfoWin.setContent('<div style="font-size:12pt;"><b>Your Current Location:<br>Address:</b>'+results[0].formatted_address+'</div>');//<p size="4">base on navigator geolocation</p>
           						} else {
             						window.alert('Geocoder failed due to: ' + status);
           						}
@@ -363,6 +365,7 @@ function initMap() {
 				google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
 					if (event.type == 'rectangle') {
 						console.log(event);
+						console.log(event.bounds);
 						return;				
 						let mapLabel = new MapLabel({
         				text: totalr.toString(),
@@ -509,8 +512,8 @@ function showContent(obj,map,place){
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             console.log(places);
           }
-   }); 
-  infowindow.setContent('<b>'+place.name+'<b><br>'+(typeof place.photos[0]!== 'undefined'?'<img style="width:60px;" src="'+place.photos[0].getUrl({maxWidth: 640})+'">':'')+'<br>Food Specialty <br><b>rating:</b>'+getRating(place.rating)+'<br><b>Open hours:</b>'+(place.opening_hours.open_now?'open':'close')+'<br>'+'current customer ontrack: '+(place.rating*200)+'<br><br><button class="btn btn-success btn-xs" data-toggle="collapse" data-target="#analytic" onclick="viewAnalytic();">toogle view analytics</button><div id="analytic" class="collapse"  style="width: 390px; height: 240px"></div>');
+   });
+  infowindow.setContent('<div style="font-size:12pt;"><div style="background-color:#dff0d8; border-color:#d6e9c6;"><b>'+place.name+'</b></div><br><table class="table table-hover"><tr><td colspan="2">'+(typeof place.photos!== 'undefined'?'<img class="img-responsive" style="width:60px;" src="'+place.photos[0].getUrl({maxWidth: 640})+'">':'')+'<br>Food Specialty</td></tr><tr><td>rating:</td><td>'+getRating(place.rating)+'</td></tr><tr><td>Open hours:</td><td>'+(typeof place.opening_hours.open_now !=='undefined'?(place.opening_hours.open_now?'open':'close'):'close')+'</td></tr>'+'<tr><td>current customer ontrack:</td><td> '+(isNaN(parseInt(place.rating*200))?0:(parseInt(place.rating*200)))+'</td></tr></table></div><center><button class="btn btn-success btn-xs" data-toggle="collapse" data-target="#analytic" onclick="viewAnalytic();">toogle view analytics</button></center><div id="analytic" class="collapse"  style="width: 390px; height: 240px"></div>');
   infowindow.setSize(new google.maps.Size(150,50));          
   infowindow.open(map, obj);
 }
@@ -637,7 +640,7 @@ float distance = location.distanceTo(temp);
       	rate=(typeof rate == 'undefined' || rate==0?0:rate);
       	star='';
       	for(let i=0; i<parseInt(rate);i++){
-      		star+='⭐';
+      		star+='<span style="color:gold;" class="glyphicon glyphicon-star"></span>';
       	}
       	return rate+' '+star;
       }
@@ -667,13 +670,16 @@ float distance = location.distanceTo(temp);
 
         chart.draw(data, options);
       }
-      $(document).ready(function() {
-    		$("#toggler").toggle(function() {
-        		//$(this).text('Show Content');
-    		}, function() {
-        		//$(this).text('Hide Content');
-    		}).click(function(){
-       		$("#restaurant-list-panel").animate({width: 'toggle'}, "slow");
+		//toggle slide
+      $(function() {
+    		$("#toggler").click(function(){
+    			if($("#restaurant-list-panel").hasClass('view')){
+					$("#restaurant-list-panel").animate({left: '-242px'}, "slow");
+    				$("#restaurant-list-panel").removeClass('view');
+    			}else{
+    				$("#restaurant-list-panel").animate({left: '5px'}, "slow");
+    				$("#restaurant-list-panel").addClass('view');
+    			}
     		});
 		});
 		function changeRType(){
