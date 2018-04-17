@@ -7,16 +7,33 @@
 	<script type="text/javascript" src="js/loader.js"></script>
    <style>
        #map {
-        height: 600px;
+        height: 790px;
         width: 100%;
        }
-       
+       #restaurant-list-filter {
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute;
+        left: 5px;
+        top: 1%;
+        height: auto;
+        margin-top: 40px;
+        width: 250px;
+        padding: 5px;
+        z-index: 5;
+        border: 1px solid #999;
+        background: #fff;
+        line-height: 25px;
+        /*padding-left: 10px;*/
+        -webkit-box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
+		  -moz-box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
+		  box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
+      }
       #restaurant-list-panel {
         font-family: Arial, Helvetica, sans-serif;
         position: absolute;
         left: 5px;
         top: 45%;
-        margin-top: -195px;
+        margin-top: 1px; /*-195*/
         height: auto;
         width: 250px;
         padding: 5px;
@@ -78,7 +95,74 @@ box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
   <body>
     <div id="map"><center></h3>Please check your internet connection</h3></center></div>
 
-<div class="panel-group" id="restaurant-list-panel"><button style="position:absolute;" id="toggler">asdf</button>
+<div class="panel-group" id="restaurant-list-filter">
+  <div class="panel panel-success">
+		<div class="panel-heading">Filter Restaurant Type</div>
+		<div class="panel-body" style="height: 150px; overflow-y: scroll">
+			<div class="row">
+				<div class="col-md-6" style="margin-left: -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="pizza" name="restype1"> pizza</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin-left: -15px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="lechon" name="restype2"> lechon</label>
+					</div>
+				</div>
+			</div>
+    		<div class="row">
+    			<div class="col-md-6" style="margin-left: -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="hamburger" name="restype3"> hamburger</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin-left: -15px;">
+					<div class="checkbox">
+    					<label><input type="checkbox" onclick="changeRType(this);" value="ice cream" name="restype4"> ice cream</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+    			<div class="col-md-6" style="margin-left: -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="coffee" name="restype5"> coffee</label>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="checkbox" style="margin-left: -15px;">
+    					<label><input type="checkbox" onclick="changeRType(this);" value="seafood" name="restype6"> seafoods</label>
+					</div>
+				</div>
+			</div>
+    		<div class="row">
+    			<div class="col-md-6" style="margin-left: -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="chicken" name="restype7"> chicken</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin-left: -15px;">
+					<div class="checkbox">
+    					<label><input type="checkbox" onclick="changeRType(this);" value="soup" name="restype8"> soup</label>
+					</div>
+				</div>
+			</div>
+    		<div class="row">
+    			<div class="col-md-6" style="margin-left: -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="pasta" name="restype9"> pasta</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin-left: -15px;">
+					<div class="checkbox">
+    					<label><input type="checkbox" onclick="changeRType(this);" value="noddles" name="restype10"> noddles</label>
+					</div>
+				</div>
+			</div>			
+		</div>
+	</div>
+</div>
+<div class="panel-group" id="restaurant-list-panel"><button style="position:absolute;" id="toggler">show</button>
   <div class="panel panel-success">
 		<div class="panel-heading">Restaurant List in Cebu City</div>
 		<div class="panel-body">
@@ -272,9 +356,14 @@ function initMap() {
         			fontSize: 20,
         			align: 'center'
     				});
+    				/*mapLabel.set('position', new google.maps.LatLng(circle.center.lat(), circle.center.lng()));
+        			circle.bindTo('map', mapLabel);
+        			circle.bindTo('position', mapLabel);*/
 				});
-				/*google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+				google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
 					if (event.type == 'rectangle') {
+						console.log(event);
+						return;				
 						let mapLabel = new MapLabel({
         				text: totalr.toString(),
         				position: new google.maps.LatLng(event.map.lat(), event.map.lng()),
@@ -283,9 +372,9 @@ function initMap() {
         				align: 'center'
     					});
     				}
-    				console.log(event);
     				
-				});*/
+    				
+				});
 				
         		//append div rectangle element in top of the map and display total restaurant
         		var centerControlDiv = document.createElement('div');
@@ -587,7 +676,23 @@ float distance = location.distanceTo(temp);
        		$("#restaurant-list-panel").animate({width: 'toggle'}, "slow");
     		});
 		});
-
+		function changeRType(){
+			let searchgroup='';
+			for(i=1; i<=10;i++){
+				if($('input[name="restype'+i+'"]').prop('checked')){
+					searchgroup+=' '+$('input[name="restype'+i+'"]').val();
+				}
+			}
+			//console.log(searchgroup);
+			
+			let searc='';
+			let searc2=($('.dropdown li').text()=='None'?'':$('.dropdown li').text()+' Restaurant');
+      	searc=($('input[name="rtype"]').val()==''?'':searchgroup+' Restaurant'); //searc2
+      	clearListRes();
+      	deleteMarkers();
+      	deleteDirection();
+      	searchRes(searc);
+		}
     </script>
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBJ7Vg19nlpd2jwjr1G5fB00EuR_z0fK4&callback=initMap&libraries=places,drawing"></script> 
