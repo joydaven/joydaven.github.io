@@ -236,7 +236,7 @@ function initMap() {
           		circleOptions: {
             		fillColor: '#5cb85c',
             		fillOpacity: 0.5,
-            		strokeWeight: 5,
+            		strokeWeight: 3,
             		clickable: false,
             		draggable: true,
             		editable: true,
@@ -245,7 +245,7 @@ function initMap() {
           		rectangleOptions: {
             		fillColor: '#fcef50',
             		fillOpacity: 0.5,
-            		strokeWeight: 5,
+            		strokeWeight: 4,
             		clickable: false,
             		draggable: true,
             		editable: true,
@@ -263,6 +263,30 @@ function initMap() {
         			cityCircle.bindTo('position', mapLabel);*/
         		});
         		drawingManager.setMap(map);
+        		google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
+  					let radius = circle.getRadius();
+					let mapLabel = new MapLabel({
+        			text: totalr.toString(),
+        			position: new google.maps.LatLng(circle.center.lat(), circle.center.lng()),
+        			map: map,
+        			fontSize: 20,
+        			align: 'center'
+    				});
+				});
+				/*google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+					if (event.type == 'rectangle') {
+						let mapLabel = new MapLabel({
+        				text: totalr.toString(),
+        				position: new google.maps.LatLng(event.map.lat(), event.map.lng()),
+        				map: map,
+        				fontSize: 20,
+        				align: 'center'
+    					});
+    				}
+    				console.log(event);
+    				
+				});*/
+				
         		//append div rectangle element in top of the map and display total restaurant
         		var centerControlDiv = document.createElement('div');
         		var centerControl = new CenterControl(centerControlDiv, map,totalr);
