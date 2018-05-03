@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/loader.js"></script>
+   <style>
+       #map {
+        height: 700px;
+        width: 100%;
+       }
+       /*#restaurant-list-filter {
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute;
+        left: 5px;
+        top: 1%;
+        height: auto;
+        margin-top: 40px;
+        width: 250px;
+        padding: 5px;
+        z-index: 5;
+        border: 1px solid #999;
+        background: #fff;
+        line-height: 25px;
+        -webkit-box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
+		  -moz-box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
+		  box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
+      }*/
+      #restaurant-list-panel {
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute;
+        left: -242px;/*5px;*/
+        top: 10%;
+        /*margin-top: -165px; -195*/
+        height: auto;
+        width: 250px;
+        padding: 5px;
+        z-index: 5;
+        border: 1px solid #999;
+        background: #fff;
+        line-height: 25px;
+        /*padding-left: 10px;*/
+        -webkit-box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
+-moz-box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
+box-shadow: 7px 10px 41px -10px rgba(0,0,0,0.75);
+      }
+      #restaurant-list-panel select, #restaurant-list-panel input {
+        font-size: 15px;
+      }
+
+      #restaurant-list-panel select {
+        width: 100%;
+      }
+
+      #restaurant-list-panel i {
+        font-size: 12px;
+      }
+      h4 {
+        margin: 0 0 5px 0;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        height: 271px;
+        width: 200px;
+        overflow-y: scroll;
+      }
+      li {
+        background-color: #f1f1f1;
+        padding: 10px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      li:nth-child(odd) {
+        background-color: #fcfcfc;
+      }
+      #more {
+        width: 100%;
+        margin: 5px 0 0 0;
+      }
+      .listr{
+        cursor:pointer;
+      }
+    	.dropdown-menu>li:hover{
+    		background-color: #f5f5f5;
+    		cursor: pointer;
+    	}
+    </style>
+   
+  </head>
+  <body>
+    <div id="map"><center></h3>Please check your internet connection</h3></center></div>
+    
+<div class="panel-group" id="restaurant-list-panel"><button class="btn btn-default btn-xs" style="position:absolute;right: -23px; top:-1px; border-left:0px;" id="toggler"><span class="glyphicon glyphicon-transfer"></span></button>
+  <div class="panel panel-success">
+		<div class="panel-heading">School List in Cebu City</div>
+		<div class="panel-body">
+      	<div class="row">
+      		<div class="col-md-12">
+      			<div class="dropdown">
+  						<button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><div style="width: 169px;overflow-wrap: break-word;white-space: normal;" id="curntFilter">Show All School <span class="caret"></span></div></button>
+  						<ul class="dropdown-menu">
+  							<li data-toggle="tooltip" data-placement="bottom" title="it shows all restaurant">None</li>
+    						<li data-toggle="tooltip" data-placement="bottom" title="emphasize speed of service, like mc donalds and burger king">Fast Food</li>
+    						<li data-toggle="tooltip" data-placement="bottom" title="are primarily chain restaurants, such as Chipotle Mexican Grill and Panera Bread">Fast Casual</li>
+    						<li data-toggle="tooltip" data-placement="bottom" title="a restaurant that serves moderately-priced food in a casual atmosphere.">Casual Dining</li>
+    						<li data-toggle="tooltip" data-placement="top" title="originate from Western Canada and include chains such as Cactus Club, Earl's and JOEY">Premium Casual</li>
+    						<li data-toggle="tooltip" data-placement="top" title="a fine dining restaurant in Bray, UK Fine dining restaurants are full service restaurants with specific dedicated meal courses.">Fine Dining</li>
+    						<li data-toggle="tooltip" data-placement="top" title="a type of casual dining restaurants where food is often served on platters and the diners serve themselves. It can also be used to describe family-friendly diners or casual restaurants.">Family Style</li>
+  						</ul>
+					</div>
+				</div>
+			</div>
+			<!--filter-->
+			<div  style="height: 150px; line-height: 1;">
+			<div class="row" style="margin-bottom:-10px;">
+				<div class="col-md-6" style="margin:0 0 0 -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="university" name="restype1"> University</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin:0 0 0 -15px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="elementary" name="restype2" checked="true"> Elementary</label>
+					</div>
+				</div>
+			</div>
+    		<div class="row">
+    			<div class="col-md-6" style="margin:-15px 0 0 -10px;">
+					<div class="checkbox">
+						<label><input type="checkbox" onclick="changeRType(this);" value="nursery" name="restype3"> Nursery</label>
+					</div>
+				</div>
+				<div class="col-md-6" style="margin:-15px 0 0 -15px;">
+					<div class="checkbox">
+    					<label><input type="checkbox" onclick="changeRType(this);" value="college" name="restype4"> College</label>
+					</div>
+				</div>
+			</div>
+						
+			</div>
+			<!--filter end-->
+			<div class="row">
+				<div class="checkbox" style="margin-left: 5px; margin-top: -10px;">
+    				<label><input type="checkbox" onclick="hidemarker(this);" name="hidemarker"> Hide Marker</label>
+    				<label><input type="checkbox" onclick="hidedirection(this);" name="hidedirection"> Hide Direction</label>
+  				</div>
+			</div>
+
+      	<div class="row" style="margin-top: 10px;">
+      		<div class="col-md-12">
+      			<ul id="places"></ul>
+      		</div>
+      	</div>
+      	<!--<button id="more">More results</button>-->
+		</div>
+  </div>
+</div>
+<script>
+    /*var xhr=new XMLHttpRequest();
+    var param={};
+    xhr.open('POST','https://developers.zomato.com/api/v2.1/search?entity_id=259',true);
+    xhr.responseType="text";
+    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    xhr.setRequestHeader('api-key','9d5715b2ee73cd7909b27c408d63b994');
+    
+    xhr.onprogress=function(e){
+	 	if(e.lengthComputable){
+	 		console.log(e.total);
+	 		console.log(e.loaded);
+	 	} 
+    };
+    xhr.onreadystatechange=function(){
+    	if(xhr.readyState !=4){console.log('asdf');return false;}
+    	console.log(xhr.responseText);
+    };
+    xhr.send('type=popular-searches&city=10564&subzone=161227&count=6&platform=web');
+    */
+
+var map;
+var service;
+var infowindow;
+var geocoder;
+var totalr=0;
+var address ="cebu city, Philippines";
+var lastnum=1;
+var pos;
+var markers=[];
+var directions=[];
+var target_place={};
+function initialize() {
+  console.log("intitialize");
+}
+    
+function initMap() {
+  //show control
+  $("#restaurant-list-panel").animate({left: '5px'}, "slow");
+  $("#restaurant-list-panel").addClass('view');
+  
+  google.maps.event.addDomListener(window, 'load', initialize);
+  geocoder = new google.maps.Geocoder();
+  if(geocoder) {
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+            //draw initial map 
+            console.log(results);   
+            target_place = new google.maps.LatLng(results[0].geometry.location.lat(),results[0].geometry.location.lng());
+            var option={center:target_place,zoom: 14,mapTypeControl: true,
+            mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+            navigationControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP}
+            map = new google.maps.Map(document.getElementById('map'), option);
+            /*map.addListener("click", function (e) {
+              var latLng = e.latLng;
+            });*/
+            infowindow = new google.maps.InfoWindow({content:'<b>Cebu City</b>',size: new google.maps.Size(150,50)});
+            //if allow location and get navigator location
+            if (navigator.geolocation) {
+              	navigator.geolocation.getCurrentPosition(
+    					function(position) {
+        					//if geolocation is on
+  							pos = {lat: position.coords.latitude , lng: position.coords.longitude};
+                		//draw circle in current position
+                		let cityCircle = new google.maps.Circle({
+                			strokeColor: '#FF0000',
+                			strokeOpacity: 0.8,
+                			strokeWeight: 2,
+                			fillColor: '#FF0000',
+                			fillOpacity: 0.35,
+                			map: map,
+                			center: pos,
+                			radius: 30,
+                			title:'current position'
+             	 		});
+             	 
+             	 		let curlocationInfoWin = new google.maps.InfoWindow({position:pos,content:'<b>Your Current Location</b>'});
+            	 		//reverse geocode, reverse to address
+            	 		let geocoder=new google.maps.Geocoder;
+            	 		geocoder.geocode({'location': pos}, function(results, status) {
+          					if (status === 'OK') {
+            					if (results[0]) {
+            						curlocationInfoWin.setContent('<div style="font-size:12pt;"><b>Your Current Location:<br>Address:</b>'+results[0].formatted_address+'</div>');//<p size="4">base on navigator geolocation</p>
+          						} else {
+            						window.alert('Geocoder failed due to: ' + status);
+          						}
+          					}else {
+            					window.alert('Geocoder failed due to: ' + status);
+          					}
+          					let currentmark=new google.maps.Marker({position: pos, map: map, title:"You are here!"});
+        						currentmark.setIcon('marker2.png');
+        					});
+            	 		curlocationInfoWin.open(map);
+            	 		map.setCenter(pos);
+
+  	 					}.bind(this),function(error) {
+        					alert("Please turn on location for this feature");
+        					setTimeout(function() {
+            				window.location.reload();
+        					}, 500)
+    					}, function(){}
+					)
+	
+				  //when click in the map will triggre drawCirc its draw a circle in the map
+        		  map.addListener('click', drawCirc);
+        		  
+        		} else {
+          		// Browser doesn't support Geolocation
+          		alert('browser doesnt support geolocation');
+          		handleLocationError(false, infoWindow, map.getCenter());
+          		setTimeout(function() {window.location.reload();}, 1000)
+        		}
+        		
+        		//setup drawing panel
+      		var drawingManager = new google.maps.drawing.DrawingManager({
+          	drawingMode: google.maps.drawing.OverlayType.MARKER,
+          	drawingControl: true,
+          	drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT,
+            drawingModes: ['circle', 'rectangle', 'polygon', 'polyline']
+          	},
+          	markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+          		circleOptions: {
+            		fillColor: '#5cb85c',
+            		fillOpacity: 0.5,
+            		strokeWeight: 3,
+            		clickable: false,
+            		draggable: true,
+            		editable: true,
+            		zIndex: 1
+          		},
+          		rectangleOptions: {
+            		fillColor: '#fcef50',
+            		fillOpacity: 0.5,
+            		strokeWeight: 4,
+            		clickable: false,
+            		draggable: true,
+            		editable: true,
+            		zIndex: 1
+          		}
+          		/*var mapLabel2 = new MapLabel({
+          			text: totalr.toString(),
+          			position: {lat: (event.latLng.lng()), lng: (event.latLng.lat())},//event.latLng,
+          			map: map,
+          			fontSize: 20,
+          			align: 'center'
+        			});
+        			mapLabel2.set('position', event.latLng);
+        			cityCircle.bindTo('map', mapLabel);
+        			cityCircle.bindTo('position', mapLabel);*/
+        		});
+        		drawingManager.setMap(map);
+        		google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
+  					let radius = circle.getRadius();
+					let mapLabel = new MapLabel({
+        			text: totalr.toString(),
+        			position: new google.maps.LatLng(circle.center.lat(), circle.center.lng()),
+        			map: map,
+        			fontSize: 20,
+        			align: 'center'
+    				});
+    				/*mapLabel.set('position', new google.maps.LatLng(circle.center.lat(), circle.center.lng()));
+        			circle.bindTo('map', mapLabel);
+        			circle.bindTo('position', mapLabel);*/
+				});
+				google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+					if (event.type == 'rectangle') {
+						let mapLabel = new MapLabel({
+        				text: totalr.toString(),
+        				position: event.overlay.getBounds().getCenter(),/*new google.maps.LatLng(event.map.lat(), event.map.lng()),*/
+        				map: map,
+        				fontSize: 20,
+        				align: 'center'
+    					});
+    				}
+    				if (event.type == 'polygon') {
+						let mapLabel = new MapLabel({
+        				text: totalr.toString(),
+        				position: event.overlay.getPath().getArray()[0],
+        				map: map,
+        				fontSize: 20,
+        				align: 'center'
+    					});
+    				}
+    				if (event.type == 'polyline') {
+						let mapLabel = new MapLabel({
+        				text: totalr.toString(),
+        				position: event.overlay.getPath().getArray()[0],
+        				map: map,
+        				fontSize: 20,
+        				align: 'center'
+    					});
+    				}    				
+				});
+				
+        		//append div rectangle element in top of the map and display total restaurant
+        		var centerControlDiv = document.createElement('div');
+        		var centerControl = new CenterControl(centerControlDiv, map,totalr);
+
+        		centerControlDiv.index = 1;
+        		map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+        		//start search restaurant places
+				searchRes();
+          } else {
+            alert("Geolocation Not found. now reloading the page");
+            setTimeout(function() {window.location.reload();}, 1000);
+          }
+        } else {
+          alert("Geocode error for the following reason: " + status + " it will Reload the Page");
+			 setTimeout(function() {window.location.reload();}, 1000);
+        }
+      });
+      
+            
+    }
+	 function getPath(polygon) {
+      var path = polygon.getPath();
+      var len = path.getLength();
+      var coordStr = 'id: ' + polygon.id + '\n';
+      for (var i = 0; i < len; i++) {
+        coordStr += this.getAt(i).toUrlValue(6) + "\n";
+      }
+      console.log(coordStr);
+    }
+}
+	/*//set more button
+	var moreButton = document.getElementById('more');
+        moreButton.onclick = function() {
+          moreButton.disabled = true;
+          if (getNextPage) getNextPage();
+	};*/
+//search restaurant places
+function searchRes(txt){
+	txt=(typeof txt=='undefined' || txt==''?'School Elementary':txt);
+	//init search restaurant
+   let request = {location: target_place,radius: '100',query: txt};
+   service = new google.maps.places.PlacesService(map);
+   service.textSearch(request, callback);
+}
+//search res callback
+function callback(results, status,pagination) {
+    totalr=totalr+results.length;
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+     for (var i = 0; i < results.length; i++) {
+       var place = results[i];
+        createMarker(results[i]);
+        
+      }
+		/*moreButton.disabled = !pagination.hasNextPage;
+      getNextPage = pagination.hasNextPage && function() {
+      	pagination.nextPage();
+      	document.getElementById('elem_totalres').innerText=totalr;
+      };*/      
+      
+      if (pagination.hasNextPage) {
+        pagination.nextPage();
+
+      }else{
+		  document.getElementById('elem_totalres').innerText=totalr;
+      }
+    }
+}
+//creat marker
+function createMarker(place) {
+    var placeLoc = place.geometry.location;
+    var mevent=google.maps.event;
+    var marker = new google.maps.Marker({map: map,position: place.geometry.location, animation: google.maps.Animation.DROP});
+    markers.push(marker);
+    
+  	 var lip = document.createElement('LI');
+    lip.appendChild(document.createTextNode(lastnum+'. '+place.name));
+    document.getElementById('places').appendChild(lip);
+    lip.className="listr";
+    lip.innerHTML=lastnum+'. '+place.name+'<br>';
+    var s=mevent.addListener(marker, 'click', function() {
+    	showContent(this,map,place);
+    });
+    lip.addEventListener('click', function() {
+    	showContent(marker,map,place);
+  	 }, false);
+    //bounds.extend(place.geometry.location);
+    lastnum++;
+}
+//setup top rectangle show total restaurant
+function CenterControl(controlDiv, map,total) {
+   // Set CSS for the control border.
+  var controlUI = document.createElement('div');
+   controlUI.style.backgroundColor = '#fff';
+   controlUI.style.border = '2px solid #fff';
+   controlUI.style.borderRadius = '3px';
+   controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+   controlUI.style.cursor = 'pointer';
+   controlUI.style.marginBottom = '22px';
+   controlUI.style.textAlign = 'center';
+   controlUI.title = 'Click to recenter the map';
+   controlDiv.appendChild(controlUI);
+
+   // Set CSS for the control interior.
+   var controlText = document.createElement('div');
+   controlText.style.color = 'rgb(25,25,25)';
+   controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+   controlText.style.fontSize = '16px';
+   controlText.style.lineHeight = '38px';
+   controlText.style.paddingLeft = '5px';
+   controlText.style.paddingRight = '5px';
+   controlText.innerHTML = 'Total Restaurant: <span id="elem_totalres">'+total+'</span>';
+   controlUI.appendChild(controlText);
+}
+//show info window and direction in restaurant when click
+function showContent(obj,map,place){
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;  	  
+  	 directionsDisplay.setMap(map);
+  	 clearDirection();//clear first direction to make sure only one at a time when click restaurant
+  	 directions.push(directionsDisplay);
+  
+  	 directionsService.route({
+      origin: pos,
+      destination: place.geometry.location,
+      travelMode: 'DRIVING',
+      region:'6000'
+    }, function(response, status) {
+      if (status === 'OK') {
+          directionsDisplay.setDirections(response);
+      } else {
+          window.alert('Directions request failed due to ' + status);
+      }
+    });
+
+    
+  service.getDetails({
+    placeId: place.id
+    }, function(places, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            console.log(places);
+          }
+   });
+  infowindow.setContent('<div style="font-size:12pt;"><div style="background-color:#dff0d8; border-color:#d6e9c6;"><b>'+place.name+'</b></div><br><table class="table table-hover"><tr><td colspan="2">'+(typeof place.photos!== 'undefined'?'<img class="img-responsive" style="width:60px;" src="'+place.photos[0].getUrl({maxWidth: 640})+'">':'')+'<br>Food Specialty</td></tr><tr><td>rating:</td><td>'+getRating(place.rating)+'</td></tr><tr><td>Open hours:</td><td>'+(typeof place.opening_hours.open_now !=='undefined'?(place.opening_hours.open_now?'open':'close'):'close')+'</td></tr>'+'<tr><td>current customer ontrack:</td><td> '+(isNaN(parseInt(place.rating*200))?0:(parseInt(place.rating*200)))+'</td></tr></table></div><center><button class="btn btn-success btn-xs" data-toggle="collapse" data-target="#analytic" onclick="viewAnalytic();">toogle view analytics</button></center><div id="analytic" class="collapse"  style="width: 390px; height: 240px"></div>');
+  infowindow.setSize(new google.maps.Size(150,50));          
+  infowindow.open(map, obj);
+}
+
+function drawCirc(event) {
+  var cityCircle = new google.maps.Circle({
+    strokeColor: '#00ff00',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35,
+    map: map,
+    center: event.latLng,
+    radius: 200,
+    title:'total restaurant'
+    });
+/*
+Location temp = new Location(LocationManager.GPS_PROVIDER);
+temp.setLatitude(event.latLng.lng());
+temp.setLongitude(event.latLng.lat()-10);
+float distance = location.distanceTo(temp);
+*/
+    	  var mapLabel = new MapLabel({
+          text: totalr.toString(),
+          position: {lat: (event.latLng.lng()), lng: (event.latLng.lat())},//event.latLng,
+          map: map,
+          fontSize: 20,
+          align: 'center'
+        });
+        mapLabel.set('position', event.latLng);
+
+        cityCircle.bindTo('map', mapLabel);
+        cityCircle.bindTo('position', mapLabel);
+}
+		//handle geolocation error
+		function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+			infoWindow.setPosition(pos);
+   		infoWindow.setContent(browserHasGeolocation ?'Error: The Geolocation service failed.' :'Error: Your browser doesn\'t support geolocation.');
+   		infoWindow.open(map);
+		}
+		
+		// Sets the map on all markers in the array.
+      function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+		
+		//addmarker with animation and timeout
+      function addMarkerWithTimeout(position, timeout) {
+        window.setTimeout(function() {
+          markers.push(new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP
+          }));
+        }, timeout);
+      }
+      // Removes the markers from the map, but keeps them in the array.
+      function clearMarkers() {
+        setMapOnAll(null);
+      }
+
+      // Shows any markers currently in the array.
+      function showMarkers() {
+        setMapOnAll(map);
+      }
+
+      // Deletes all markers in the array by removing references to them.
+      function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+      }
+      function clearListRes(){
+      	document.getElementById('places').innerHTML="";
+     		lastnum=1;
+     		totalr=0;
+     		document.getElementById('elem_totalres').innerText=totalr;
+      }
+		function clearDirection(){
+      	setDirectionOnAll(null);
+      }      
+      function showDirection(){
+      	setDirectionOnAll(map);
+      }
+      function deleteDirection(){
+      	clearDirection();
+      	directions=[];
+      }
+      
+      // Sets the direction on all directions in the array.
+      function setDirectionOnAll(map) {
+        for (var i = 0; i < directions.length; i++) {
+          directions[i].setMap(map);
+        }
+      }
+      function hidemarker(obj){
+      	if(obj.checked){
+      		clearMarkers();
+      		return;
+      	}
+      	showMarkers();
+      }
+      function hidedirection(obj){
+      	if(obj.checked){
+      		clearDirection();
+      		return;
+      	}
+      	showDirection();
+      }
+      $(function(){
+      	$('.dropdown li').click(function(){
+      		let searc='';
+      		$('.dropdown #curntFilter').html(($(this).text()=='None'?'All Restaurant ':$(this).text()+' Restaurant')+' <span class="caret"></span>');
+      		searc=($(this).text()=='None'?'':$(this).text()+' Restaurant');
+      		clearListRes();
+      		deleteMarkers();
+      		deleteDirection();
+      		searchRes($(this).text());
+      	});
+      	$('[data-toggle="tooltip"]').tooltip(); 
+      });
+      function getRating(rate){
+      	rate=(typeof rate == 'undefined' || rate==0?0:rate);
+      	star='';
+      	for(let i=0; i<parseInt(rate);i++){
+      		star+='<span style="color:gold;" class="glyphicon glyphicon-star"></span>';
+      	}
+      	return rate+' '+star;
+      }
+      
+		function viewAnalytic(){
+	      google.charts.load('current', {'packages':['corechart']});
+	      google.charts.setOnLoadCallback(drawChart);	
+		}
+		var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+      function drawChart() {
+        
+        var data = google.visualization.arrayToDataTable([
+          ['Week', 'Sales', 'Expenses'],
+          ['1st week',  Math.floor(Math.random() * 100000) + 10000,Math.floor(Math.random() * 100000) + 400],
+          ['2nd week',  Math.floor(Math.random() * 100000) + 10000,Math.floor(Math.random() * 100000) + 400],
+          ['3rd week',  Math.floor(Math.random() * 100000) + 10000,Math.floor(Math.random() * 100000) + 400],
+          ['4th week',  Math.floor(Math.random() * 100000) + 10000,Math.floor(Math.random() * 100000) + 400]
+        ]);
+		  var d = new Date();
+        var options = {
+          title: 'Sales & Expenses for the Month of '+ months[(d.getMonth())]+' '+d.getFullYear(),
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('analytic'));
+
+        chart.draw(data, options);
+      }
+		//toggle slide
+      $(function() {
+    		$("#toggler").click(function(){
+    			if($("#restaurant-list-panel").hasClass('view')){
+					$("#restaurant-list-panel").animate({left: '-242px'}, "slow");
+    				$("#restaurant-list-panel").removeClass('view');
+    			}else{
+    				$("#restaurant-list-panel").animate({left: '5px'}, "slow");
+    				$("#restaurant-list-panel").addClass('view');
+    			}
+    		});
+		});
+		function changeRType(){
+			let searchgroup='';
+			for(i=1; i<=10;i++){
+				if($('input[name="restype'+i+'"]').prop('checked')){
+					searchgroup+=' '+$('input[name="restype'+i+'"]').val();
+				}
+			}
+			//console.log(searchgroup);
+			
+			let searc='';
+			let searc2=($('.dropdown li').text()=='None'?'':$('.dropdown li').text()+' Restaurant');
+      	searc=($('input[name="rtype"]').val()==''?'':searchgroup+' Restaurant'); //searc2
+      	clearListRes();
+      	deleteMarkers();
+      	deleteDirection();
+      	searchRes(searc);
+		}
+		
+		//polygon on drag
+		/*
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {
+      lat: -34.397,
+      lng: 150.644
+    },
+    zoom: 8
+  });
+
+  var drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: google.maps.drawing.OverlayType.MARKER,
+    drawingControl: true,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER,
+      drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
+    },
+    markerOptions: {
+      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+    },
+    circleOptions: {
+      fillColor: '#ffff00',
+      fillOpacity: 1,
+      strokeWeight: 5,
+      clickable: false,
+      editable: true,
+      zIndex: 1
+    }
+  });
+  drawingManager.setMap(map);
+
+  var shapeID = 1;
+
+  google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
+    drawingManager.setDrawingMode(null);
+
+    polygon.setOptions({
+      id: shapeID,
+      editable: true,
+      draggable: true
+    });
+
+    google.maps.event.addListener(polygon, 'click', function() {
+      console.log(this.id + ' ' + this.getPath().getArray().toString());
+    });
+
+    google.maps.event.addListener(polygon, 'dragend', function() {
+      console.log(this.id + ' ' + this.getPath().getArray().toString());
+    });
+    
+    google.maps.event.addListener(polygon.getPath(), "insert_at", getPath);
+    google.maps.event.addListener(polygon.getPath(), "remove_at", getPath);
+    google.maps.event.addListener(polygon.getPath(), "set_at", getPath);
+
+    function getPath() {
+      var path = polygon.getPath();
+      var len = path.getLength();
+      var coordStr = 'id: ' + polygon.id + '\n';
+      for (var i = 0; i < len; i++) {
+        coordStr += this.getAt(i).toUrlValue(6) + "\n";
+      }
+      console.log(coordStr);
+    }
+
+    shapeID++;
+  });
+}		
+		*/
+    </script>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBJ7Vg19nlpd2jwjr1G5fB00EuR_z0fK4&callback=initMap&libraries=places,drawing"></script> 
+    <script src="maplabel.js"></script>
+
+  </body>
+</html>
