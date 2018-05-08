@@ -1,0 +1,248 @@
+<html>
+<head>
+<title>Cael</title>
+<HTA:APPLICATION
+  	APPLICATIONNAME="SVN Asset Selector"
+  	ID="MyHTMLapplication"
+  	ICON="http://sjgen14.000webhostapp.com/bk.ico"
+  	VERSION="1.0"
+  	border="thin"
+	borderStyle="raised"
+	caption="yes"
+	contextMenu="yes"
+	innerBorder="yes"
+	maximizeButton="no"
+	minimizeButton="yes"
+	navigable="no"
+	scroll="no"
+	scrollFlat="no" 
+	selection="yes"
+	showInTaskbar="yes"
+	singleInstance="no"
+	sysMenu="yes"
+	windowState="normal"
+/>
+
+</head>
+<!--<link rel="stylesheet" type="text/css" href="UI.css">-->
+<!--<script src="UI.js"></script>-->
+<script language="VBScript">
+	window.resizeto 470,290
+</script>
+<script language="VBScript">
+'window.event.keyCode
+'If (window.event.keyCode = 109) Then
+'    Msgbox("You just pressed the 'm' key")
+'End If
+Dim t1interval,toreadytimeout,tseconds,secondsready,ctru
+Dim test2,time2ready,idTimer
+Dim pauseShell  : Set pauseShell = CreateObject("WScript.Shell")
+Dim WShell : Set WShell = CreateObject("WScript.Shell")
+
+Sub Window_Onload
+    inputk.Focus
+    Set test2=document.getElementById("test2")
+    Set time2ready=document.getElementById("time2ready")
+    tseconds=0
+    secondsready=0
+    ctru=0
+End Sub
+
+Function fnaddk
+	'Dim inputk,listk,newOption
+	'Set inputk=document.getElementById("inputk")
+	'Set listk=document.getElementById("listk")
+	If inputk.value="" Then
+		inputk.focus
+		Exit Function
+	End If 
+	Set newOption = document.createElement("OPTION")
+	newOption.text = inputk.value
+	newOption.value = inputk.value
+	listk.options.add(newOption)
+	Set newOption =Nothing
+	inputk.value=""
+	inputk.focus
+	removek.disabled = false
+End Function
+
+Function fnremovek
+	For Each objOption in listk.Options
+        If objOption.Selected Then
+            'Msgbox objOption.InnerText
+            objOption.removeNode
+        End If
+    Next
+    If listk.length <= 0 Then
+		removek.disabled=true
+	End if
+End Function
+
+Function fnstartk
+	If listk.length <=0 Then
+		inputk.focus
+		inputk.select
+		Exit Function
+	End If
+	If IsNumeric(intervalk.value) = False Then
+		MsgBox "input only number",48, "Invalid Input"
+		intervalk.focus
+		intervalk.select
+		Exit Function
+	End If
+	If IsNumeric(timestartw.value) = False Then
+		MsgBox "input only number",48, "Invalid Input"
+		timestartw.focus
+		timestartw.select
+		Exit Function
+	End If
+	addk.disabled=True
+	stopk.disabled=False
+	startk.disabled=True
+	removek.disabled=true
+	'For Each objOption in listk.Options
+    '    MsgBox objOption.value
+    'Next
+    secondsready=timestartw.value + 1
+    
+    'Dim oShell  : Set oShell = CreateObject("WScript.Shell")
+    'oShell.run "cmd /c ping localhost -n " & 5,0,True '5 is 5seconds
+    
+    ToReadyset
+End Function
+
+Sub ToReadyset
+	toreadytimeout=window.setTimeOut("timetoReady", 1000)
+End Sub
+
+Sub timetoReady
+	If secondsready <= 1 Then
+		window.clearInterval toreadytimeout	
+		time2ready.innerText= ""
+		StartTimer 'start send key proccess and call interval
+		Exit Sub
+	End If
+	secondsready=secondsready - 1
+	time2ready.innerText= secondsready & " Seconds to Ready"
+	ToReadyset
+End Sub
+
+'start send key proccess and call interval
+Sub StartTimer
+	If listk.selectedIndex = -1 Then  'no selection in the list
+		tseconds=0                    'set to 0  meaning first item in the list
+	Else
+		tseconds=listk.selectedIndex'seekable kung asa nka select sa listbox dira mo start
+	End If
+	
+	t1interval = window.setInterval("startInterval", intervalk.value)
+End Sub
+'start interval
+Sub startInterval()
+	
+	test2.innerHTML = tseconds 
+	
+	If tseconds >= listk.length Then
+		tseconds = 0
+		If infinitk.checked = False Then
+			window.clearInterval t1interval
+			window.clearInterval toreadytimeout
+			stopk.disabled=True
+			startk.disabled=False
+			removek.disabled=False
+			addk.disabled=false
+			inputk.focus
+			Exit Sub
+		End If
+	End If
+	'i = 0
+	'While i < listk.length
+ 	'	If i = tseconds Then
+  	'		listk.Options(tseconds).Selected = True
+  	'	Else
+  	'		listk.Options(tseconds).Selected = false		
+ 	'	End If
+ 	'	i=i+1
+ 	'Wend
+ 	'For Each objOption in listk.Options
+	'	objOption.Selected=3
+    'Next
+	
+	'WShell.SendKeys listk.Options(tseconds).value
+	If ctru <=0 Then
+		WShell.SendKeys "{HOME}"
+		WShell.SendKeys "select g.geocode,g.shape.SDO_POINT.Y,g.shape.SDO_POINT.X from geo_spatial_location_apdu g where geocode in"	
+		WShell.SendKeys "{(}"
+	End If
+	WShell.SendKeys "{END}"
+	WShell.SendKeys ","
+	WShell.SendKeys "{RIGHT}"	
+	
+	listk.Options(tseconds).Selected = True
+	'If listk.Options(listk.selectedIndex - 1) Then
+	'	listk.Options(listk.selectedIndex - 1).Selected = false
+	'End If
+	tseconds = tseconds + 1	
+	ctru = ctru + 1
+	'pauseShell.run "cmd /c ping localhost -n " & 1,0,True '5 is 5seconds
+    'WShell.SendKeys "{ENTER}Hola Mundo!"	
+		
+End Sub
+
+Sub fnstopk( timr )
+	window.clearInterval timr
+	window.clearInterval toreadytimeout
+	stopk.disabled=True
+	startk.disabled=False
+	removek.disabled=False
+	addk.disabled=false
+End Sub
+</script>
+
+<body width="100%" scroll="no">
+<center>
+
+
+<table border="0" width="95%">
+	<tr>
+		<td>
+			<input id="inputk" type="text" name="inputk" placeholder="" value="">
+			<button onclick="fnaddk()" name="addk" >Add Key</button>
+			<!--<input id="btn-scan" class="btn btn-info" type="button" name="scanDirectory" value="Scan Directory" onclick="scanD()">-->
+			<span name="test2" id="test2" style="display:none;" >0</span>
+		</td>
+		<td>
+			<span name="time2ready" id="time2ready" style="color:red;"></span>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Interval<input id="intervalk" type="text" name="intervalk" value="1000">
+			<br>Time wait when macro start	<input id="timestartw" size="8" type="text" name="timestartw" value="5">
+		</td>
+		<td>
+			infinit loop <input id="infinitk" type="checkbox" name="infinitk" value="infinit" checked=true>
+		</td>
+	</tr>
+	<tr>
+		<td width="70%" valign="top">
+			<div id="svnDir" style="word-break: break-all;"><select size="4" name="listk" id="listk" style="width:100%;"></select></div>
+		</td>
+		<td width="30%" valign="top">
+			<button name="removek" id="removek" onclick="fnremovek()" disabled>Remove Key</button>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" width="100%">
+			<center style="margin-top:10px;">	
+			<button onclick="fnstartk()" name="startk" id="startk" style="width: 180px;  padding:10px; 20px;">Start</button>
+			<button onclick="fnstopk t1interval" name="stopk" id="stopk" style="width: 180px; padding:10px; 20px; margin-left:80px;" disabled>Stop</button>
+			</center>
+		</td>
+	</tr>
+</table>
+</center>
+<span style="float:right; font-size:8pt;">Contact Me: <a href="mailto:someone@example.com?Subject=Inquire%20Only" target="_top">sjgen14@gmail.com</a></span>
+
+</body>
+</html>
